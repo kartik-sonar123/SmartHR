@@ -1,0 +1,9 @@
+@charset "UTF-8";
+body {
+	background: url('/images/form-bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+li a {
+	text-transform: uppercase;
+}
