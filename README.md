@@ -1,14 +1,15 @@
-<<<<<<< HEAD
 # SmartHR (💼 HR Management System)
 
 SmartHR is a complete **HR management web application** built using Spring Boot, MySQL, and Thymeleaf. It provides features like employee management,
-custom login, an admin dashboard, and role-based access — all without using Spring Security!
+attendance tracking, leave management, custom login, an admin dashboard, and role-based access — all without using Spring Security!
 
 ---
 
 ## 🚀 Key Features
 
 - ✅ Add, update, view, and delete employee records
+- ✅ Track **employee attendance**
+- ✅ Manage **employee leave requests**
 - ✅ Persistent data storage using Spring Data JPA and MySQL
 - ✅ Responsive UI using Thymeleaf and Bootstrap
 - ✅ **Custom authentication system** (without Spring Security)
@@ -52,6 +53,3 @@ This project includes:
 1. **Clone the Repo**
    ```bash
    git clone https://github.com/kartik-sonar123/SmartHR.git
-=======
-# SmartHR
->>>>>>> 197fae931c321612a1074b3c7476ee949a5568ed
