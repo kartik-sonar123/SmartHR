@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Salary History</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+	--primary-color: #2A6F97;
+	--secondary-color: #468FAF;
+	--accent-color: #61A5C2;
+	--text-color: #2B2D42;
+}
+
+body {
+	background: url('/images/attendance-card-bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	min-height: 100vh;
+	font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.container {
+	max-width: 1200px;
+	padding: 2rem 1rem;
+}
+
+.salary-card {
+	border-radius: 16px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+	overflow: hidden;
+}
+
+.header-section {
+	background: linear-gradient(135deg, var(--primary-color),
+		var(--secondary-color));
+	color: white;
+	padding: 2rem;
+	border-radius: 16px 16px 0 0;
+}
+
+.data-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.data-table th {
+	background: #F1FAFE;
+	color: var(--text-color);
+	padding: 1.2rem;
+	font-weight: 600;
+	border-bottom: 3px solid var(--accent-color);
+}
+
+.data-table td {
+	padding: 1rem 1.2rem;
+	border-bottom: 1px solid #EDF2F4;
+}
+
+.data-table tr:last-child td {
+	border-bottom: none;
+}
+
+.data-table tr:hover {
+	background: #F8F9FF;
+	transition: background 0.2s ease;
+}
+
+.salary-amount {
+	font-family: 'Space Mono', monospace;
+	color: var(--text-color);
+	font-weight: 500;
+}
+
+.empty-state {
+	padding: 4rem 2rem;
+	text-align: center;
+	background: #F8FAFC;
+	border-radius: 16px;
+}
+
+.back-btn {
+	background: var(--primary-color);
+	color: white !important;
+	padding: 0.8rem 1.5rem;
+	border-radius: 50px;
+	transition: all 0.2s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.back-btn:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 5px 15px rgba(42, 111, 151, 0.2);
+}
+
+@media ( max-width : 768px) {
+	.header-section {
+		padding: 1.5rem;
+	}
+	.data-table {
+		display: block;
+		overflow-x: auto;
+	}
+	.mobile-card-view {
+		display: grid;
+		gap: 1rem;
+		padding: 1rem;
+	}
+	.mobile-card {
+		background: white;
+		padding: 1.5rem;
+		border-radius: 12px;
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+	}
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div class="salary-card">
+			<!-- Header Section -->
+			<div class="header-section">
+				<div class="d-flex justify-content-between align-items-center">
+					<h1 class="h3 mb-0">
+						<i class="fas fa-file-invoice-dollar me-2"></i> Salary History
+					</h1>
+					<a href="/employee-profile" class="back-btn"> <i
+						class="fas fa-chevron-left"></i> Back to Profile
+					</a>
+				</div>
+			</div>
+
+			<!-- Content Section -->
+			<div class="p-4">
+				<div th:if="${salaryHistory.isEmpty()}" class="empty-state">
+					<div class="mb-3">
+						<i class="fas fa-file-search fa-3x text-muted"></i>
+					</div>
+					<h3 class="h5 text-muted mb-2">No Salary Records Found</h3>
+					<p class="text-muted">Start generating payrolls to view history</p>
+				</div>
+
+				<div th:if="${!salaryHistory.isEmpty()}">
+					<!-- Desktop Table -->
+					<table class="data-table d-none d-md-table">
+						<thead>
+							<tr>
+								<th>Month</th>
+								<th>Basic Salary</th>
+								<th>Deductions</th>
+								<th>Net Salary</th>
+								<th>Payment Date</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="pay : ${salaryHistory}">
+								<td th:text="${pay.month}"></td>
+								<td class="salary-amount"
+									th:text="${'₹' + #numbers.formatDecimal(pay.basicSalary, 1, 'COMMA', 2, 'POINT')}"></td>
+								<td class="salary-amount"
+									th:text="${'₹' + #numbers.formatDecimal(pay.deductions, 1, 'COMMA', 2, 'POINT')}"></td>
+								<td class="salary-amount"
+									th:text="${'₹' + #numbers.formatDecimal(pay.netSalary, 1, 'COMMA', 2, 'POINT')}"></td>
+								<td
+									th:text="${#temporals.format(pay.generatedDate, 'dd MMM yyyy')}"></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<!-- Mobile Cards -->
+					<div class="d-md-none mobile-card-view">
+						<div class="mobile-card" th:each="pay : ${salaryHistory}">
+							<div class="d-flex justify-content-between mb-2">
+								<div class="text-primary fw-500" th:text="${pay.month}"></div>
+								<div class="text-muted"
+									th:text="${#temporals.format(pay.generatedDate, 'dd MMM')}"></div>
+							</div>
+							<div
+								class="d-flex justify-content-between align-items-center mb-3">
+								<div>
+									<div class="text-sm text-muted">Net Salary</div>
+									<div class="salary-amount h5"
+										th:text="${'₹' + #numbers.formatDecimal(pay.netSalary, 1, 'COMMA', 2, 'POINT')}"></div>
+								</div>
+								<i class="fas fa-wallet fa-2x text-accent"></i>
+							</div>
+							<div class="d-flex justify-content-between text-sm">
+								<div>
+									<div class="text-muted">Basic</div>
+									<div
+										th:text="${'₹' + #numbers.formatDecimal(pay.basicSalary, 1, 'COMMA', 2, 'POINT')}"></div>
+								</div>
+								<div>
+									<div class="text-muted">Deductions</div>
+									<div class="text-danger"
+										th:text="${'₹' + #numbers.formatDecimal(pay.deductions, 1, 'COMMA', 2, 'POINT')}"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

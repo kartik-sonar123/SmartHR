@@ -11,8 +11,9 @@
 	rel="stylesheet">
 <style>
 body {
-	background: linear-gradient(rgba(255, 255, 255, 0.92),
-		rgba(255, 255, 255, 0.92)), url('/images/attendance_bg.jpg');
+	background: url('/images/attendance-card-bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
 	background-size: cover;
 	background-repeat: no-repeat;
 	min-height: 100vh;
@@ -149,7 +150,7 @@ footer {
 						href="/admin/attendance">Attendance</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="/admin/leave-requests">Leave</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Payroll</a></li>
+					<li class="nav-item"><a class="nav-link" href="/payroll">Payroll</a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{logout}">Logout</a></li>
 				</ul>
 			</div>
@@ -203,12 +204,17 @@ footer {
 				<div class="col-md-3">
 					<div class="stat-card text-center p-4 shadow">
 						<i class="bi bi-cash-coin fs-2 text-info"></i>
-						<div class="stat-number text-info">Processed</div>
-						<h5 class="card-title">Payroll Status</h5>
+						<div class="stat-number text-info fw-bold fs-5">
+							₹ <span th:text="${totalNetSalary}">0.0</span>
+						</div>
+						<div class="text-muted small">
+							<span th:text="${processedEmployees}">0</span>/<span
+								th:text="${totalEmployees}">0</span>
+						</div>
+						<h5 class="card-title mt-1">Payroll Status</h5>
 					</div>
 				</div>
 			</div>
-
 			<!-- Features Section -->
 			<div class="row g-4 mt-4">
 				<div class="col-md-8">
@@ -218,11 +224,13 @@ footer {
 							<div class="ms-3">
 								<h3 class="h5 mb-1">Attendance Overview</h3>
 								<p class="text-muted mb-0">Last 30 days attendance trends</p>
-
 							</div>
 						</div>
-						<div class="chart-placeholder bg-light rounded"
-							style="height: 200px;"></div>
+						<div class="image-container position-relative rounded">
+							<img src="/images/attendance-img.png"
+								alt="Attendance visualization" class="img-fluid w-100 rounded"
+								style="height: 200px; object-fit: cover;">
+						</div>
 					</div>
 				</div>
 				<div class="col-md-4">
@@ -238,11 +246,11 @@ footer {
 							<a href="#"
 								class="list-group-item list-group-item-action d-flex align-items-center">
 								<i class="bi bi-envelope me-3"></i> Send Company Announcement
-							</a> <a href="#"
+							</a> <a href="/payroll"
 								class="list-group-item list-group-item-action d-flex align-items-center">
 								<i class="bi bi-file-earmark-text me-3"></i> Generate Monthly
 								Report
-							</a> <a href="#"
+							</a> <a href="/admin/attendance"
 								class="list-group-item list-group-item-action d-flex align-items-center">
 								<i class="bi bi-calendar3 me-3"></i> View Attendance Calendar
 							</a>

@@ -21,7 +21,9 @@
 }
 
 body {
-	background-color: #fafafa;
+	background: url('/images/attendance-card-bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
 	font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -290,12 +292,12 @@ body {
 					employee leave applications</p>
 			</div>
 			<div>
-				<span>
-				<a th:href="@{/adminDashboard}" class="btn btn-light badge bg-light text-dark fs-6 fw-normal me-5" role="button">
-					<i class="bi bi-arrow-left m2-1"></i>Back to Dashboard</a></span>
-				<span
-					class="badge bg-light text-dark fs-6 fw-normal"> <i
-						class="fas fa-user-shield me-2"></i> Administrator Panel
+				<span> <a th:href="@{/adminDashboard}"
+					class="btn btn-light badge bg-light text-dark fs-6 fw-normal me-5"
+					role="button"> <i class="bi bi-arrow-left m2-1"></i>Back to
+						Dashboard
+				</a></span> <span class="badge bg-light text-dark fs-6 fw-normal"> <i
+					class="fas fa-user-shield me-2"></i> Administrator Panel
 				</span>
 			</div>
 		</div>

@@ -2,115 +2,140 @@ package com.employeeManagement.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity // Marks this class as a JPA entity to be mapped to a database table
+@Entity // Marks this class as a JPA entity, which will be mapped to a database table
 public class Employee {
 
-    @Id // Denotes the primary key of the entity
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generates the ID for each new employee record
-    private int id;
+	@Id // Denotes that the 'id' field is the primary key of this entity
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // Automatically generates the ID value for each new employee record
+	private int id;
 
-    @Column(nullable = false) // Ensures that the column cannot have a null value in the database
-    private String name;
+	@Column(nullable = false) // Ensures the 'name' field cannot be null in the database
+	private String name;
 
-    @Column(nullable = false) // Ensures that the column cannot have a null value in the database
-    private String jobRole;
+	@Column(nullable = false) // Ensures the 'jobRole' field cannot be null in the database
+	private String jobRole;
 
-    @Column(nullable = false) // Ensures that the column cannot have a null value in the database
-    private String department;
+	@Column(nullable = false) // Ensures the 'department' field cannot be null in the database
+	private String department;
 
-    @Column(nullable = false) // Ensures that the column cannot have a null value in the database
-    private float salary;
+	@Column(nullable = false) // Ensures the 'salary' field cannot be null in the database
+	private float salary;
 
-    @Column(nullable = false) // Ensures that the column cannot have a null value in the database
-    private LocalDate joiningDate; // Represents the date the employee joined the company
+	@Column(nullable = false) // Ensures the 'joiningDate' field cannot be null in the database
+	private LocalDate joiningDate; // The date when the employee joined the company
 
-    private double allowances; // Represents any additional allowances the employee might have
+	private double allowances; // Represents additional allowances the employee might have (optional)
 
-    @ManyToOne(cascade = CascadeType.ALL) // Defines a Many-to-One relationship with the User entity
-    @JoinColumn(name = "user_id", referencedColumnName = "id") // Creates the foreign key column 'user_id' that references the 'id' field of the User table
-    private User user; // The User associated with this employee
+	// Many-to-One relationship with the 'User' entity, indicating an employee can be associated with one user
+	@ManyToOne(cascade = CascadeType.ALL) // Cascade all operations on 'Employee' to the associated 'User'
+	@JoinColumn(name = "user_id", referencedColumnName = "id") // Creates the foreign key 'user_id' referencing 'User' table's 'id'
+	private User user; // The User entity associated with this Employee
 
-    // Default constructor
-    public Employee() {
-        this.joiningDate = LocalDate.now(); // Auto-sets today's date as the default joining date
-    }
+	// One-to-Many relationship with the 'Attendance' entity (one employee can have multiple attendance records)
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Attendance> attendanceList = new ArrayList<>();
 
-    // Parameterized constructor to initialize all fields
-    public Employee(int id, String name, String jobRole, String department, float salary, LocalDate joiningDate, User user) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.jobRole = jobRole;
-        this.department = department;
-        this.salary = salary;
-        this.joiningDate = joiningDate;
-        this.user = user;
-    }
+	// One-to-Many relationship with the 'Payroll' entity (one employee can have multiple payroll records)
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Payroll> payrolls = new ArrayList<>();
 
-    // Getter and Setter methods for each field
+	// One-to-Many relationship with the 'LeaveRequest' entity (one employee can have multiple leave requests)
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE) // Removes associated leave requests when an employee is deleted
+	private List<LeaveRequest> leaveRequests;
 
-    public double getAllowances() {
-        return allowances;
-    }
+	// Default constructor that sets the joining date to today's date
+	public Employee() {
+		this.joiningDate = LocalDate.now(); // Default joining date as the current date
+	}
 
-    public void setAllowances(double allowances) {
-        this.allowances = allowances;
-    }
+	// Parameterized constructor for initializing all fields
+	public Employee(int id, String name, String jobRole, String department, float salary, LocalDate joiningDate,
+			User user) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.jobRole = jobRole;
+		this.department = department;
+		this.salary = salary;
+		this.joiningDate = joiningDate;
+		this.user = user;
+	}
 
-    public int getId() {
-        return id;
-    }
+	// Getter and Setter methods for each field
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public double getAllowances() {
+		return allowances;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setAllowances(double allowances) {
+		this.allowances = allowances;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public String getJobRole() {
-        return jobRole;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setJobRole(String jobRole) {
-        this.jobRole = jobRole;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getDepartment() {
-        return department;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
+	public String getJobRole() {
+		return jobRole;
+	}
 
-    public float getSalary() {
-        return salary;
-    }
+	public void setJobRole(String jobRole) {
+		this.jobRole = jobRole;
+	}
 
-    public void setSalary(float salary) {
-        this.salary = salary;
-    }
+	public String getDepartment() {
+		return department;
+	}
 
-    public LocalDate getJoiningDate() {
-        return joiningDate;
-    }
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 
-    public void setJoiningDate(LocalDate joiningDate) {
-        this.joiningDate = joiningDate;
-    }
+	public float getSalary() {
+		return salary;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	public void setSalary(float salary) {
+		this.salary = salary;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public LocalDate getJoiningDate() {
+		return joiningDate;
+	}
+
+	public void setJoiningDate(LocalDate joiningDate) {
+		this.joiningDate = joiningDate;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	// Overridden toString() method for displaying the Employee object as a string
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", name=" + name + ", jobRole=" + jobRole + ", department=" + department
+				+ ", salary=" + salary + ", joiningDate=" + joiningDate + ", allowances=" + allowances + ", user="
+				+ user + "]";
+	}
+
 }

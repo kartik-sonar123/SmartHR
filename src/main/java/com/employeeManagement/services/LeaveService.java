@@ -12,54 +12,60 @@ import com.employeeManagement.repositories.LeaveRequestRepository;
 @Service
 public class LeaveService {
 
-	@Autowired
-	private LeaveRequestRepository leaveRequestRepository;
+    @Autowired
+    private LeaveRequestRepository leaveRequestRepository;
 
-	/**
-	 * Apply for a new leave request
-	 * 
-	 * @param leaveRequest LeaveRequest object containing leave details
-	 */
-	public void applyLeave(LeaveRequest leaveRequest) {
-		leaveRequestRepository.save(leaveRequest);
-	}
+    /**
+     * Apply for a new leave request by saving it to the repository.
+     * 
+     * @param leaveRequest LeaveRequest object containing leave details.
+     */
+    public void applyLeave(LeaveRequest leaveRequest) {
+        leaveRequestRepository.save(leaveRequest);  // Save the leave request in the database.
+    }
 
-	/**
-	 * Fetch all leave requests (for admin usage)
-	 * 
-	 * @return List of all LeaveRequest objects
-	 */
-	public List<LeaveRequest> getAllLeaveRequests() {
-		return leaveRequestRepository.findAll();
-	}
+    /**
+     * Fetch all leave requests (used by admin) from the repository.
+     * 
+     * @return List of all LeaveRequest objects.
+     */
+    public List<LeaveRequest> getAllLeaveRequests() {
+        return leaveRequestRepository.findAll();  // Return all leave requests from the repository.
+    }
 
-	/**
-	 * Update the status and admin comment for a leave request
-	 * 
-	 * @param id      ID of the leave request
-	 * @param status  New status (APPROVED, REJECTED, etc.)
-	 * @param comment Admin's comment regarding the decision
-	 */
-	public void updateStatus(int id, LeaveRequest.Status status, String comment) {
-		LeaveRequest request = leaveRequestRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Leave Request not found with id: " + id));
+    /**
+     * Update the status and admin's comment of a specific leave request.
+     * 
+     * @param id      ID of the leave request to update.
+     * @param status  New status (e.g., APPROVED, REJECTED).
+     * @param comment Admin's comment about the leave decision.
+     */
+    public void updateStatus(int id, LeaveRequest.Status status, String comment) {
+        // Find the leave request by ID, or throw an exception if not found.
+        LeaveRequest request = leaveRequestRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Leave Request not found with id: " + id));
 
-		request.setStatus(status);
-		request.setAdminComment(comment);
-		leaveRequestRepository.save(request);
-	}
+        request.setStatus(status);  // Set the new status of the leave request.
+        request.setAdminComment(comment);  // Set the admin's comment.
+        leaveRequestRepository.save(request);  // Save the updated request in the database.
+    }
 
-	/**
-	 * Fetch leave requests for a specific employee
-	 * 
-	 * @param employee Employee object
-	 * @return List of LeaveRequest objects for that employee
-	 */
-	public List<LeaveRequest> getLeavesByEmployee(Employee employee) {
-		return leaveRequestRepository.findByEmployee(employee);
-	}
+    /**
+     * Fetch leave requests for a specific employee.
+     * 
+     * @param employee Employee whose leave requests are to be fetched.
+     * @return List of LeaveRequest objects for the specified employee.
+     */
+    public List<LeaveRequest> getLeavesByEmployee(Employee employee) {
+        return leaveRequestRepository.findByEmployee(employee);  // Return the leave requests for the given employee.
+    }
 
-	   public long getPendingLeaveCount() {
-	        return leaveRequestRepository.countPendingLeave();
-	    }
+    /**
+     * Get the count of pending leave requests.
+     * 
+     * @return The number of leave requests that are still pending.
+     */
+    public long getPendingLeaveCount() {
+        return leaveRequestRepository.countPendingLeave();  // Return the count of pending leave requests.
+    }
 }

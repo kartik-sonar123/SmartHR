@@ -9,39 +9,44 @@ import org.springframework.stereotype.Service;
 import com.employeeManagement.models.Employee;
 import com.employeeManagement.repositories.EmpRepository;
 
-@Service
+@Service // This annotation indicates that this class is a service component in the Spring context
 public class EmpService {
 
-	@Autowired
+	@Autowired // Automatically injects the EmpRepository dependency into this service
 	EmpRepository empRepository;
 
-	// Get all employees along with their associated user data
+	// Method to get all employees with their associated user data
 	public List<Employee> getAllEmployeesWithUser() {
-		return empRepository.findAllEmployeesWithUser();
+		return empRepository.findAllEmployeesWithUser(); // Calls the repository method to get all employees with user data
 	}
 
-	// Save or update an employee
+	// Method to save or update an employee
 	public void saveEmp(Employee emp) {
-		empRepository.save(emp);
+		empRepository.save(emp); // Uses the repository's save method to persist the employee
 	}
 
-	// Delete an employee by ID
+	// Method to delete an employee by their ID
 	public void deleteEmp(int id) {
-		empRepository.deleteById(id);
+		empRepository.deleteById(id); // Calls the deleteById method of the repository to delete an employee by ID
 	}
 
-	// Get employee by ID
+	// Method to get an employee by their ID
 	public Optional<Employee> getEmployeeById(int id) {
-		return empRepository.findById(id);
+		return empRepository.findById(id); // Uses the findById method of the repository to find the employee by ID
 	}
 
-	// Get employee by user email
+	// Method to get an employee by their associated user's email
 	public Employee getEmployeeByEmail(String email) {
-		return empRepository.findByUserEmail(email);
+		return empRepository.findByUserEmail(email); // Calls the repository method to find the employee by the user's email
 	}
 
-	// Get total number of employees
+	// Method to get the total number of employees
 	public long getTotalEmployees() {
-		return empRepository.countTotalEmployees();
+		return empRepository.countTotalEmployees(); // Calls the repository method to count the total number of employees
+	}
+
+	// Method to get all employees without user data
+	public List<Employee> getAllEmployees() {
+		return empRepository.findAll(); // Uses the findAll method to fetch all employees
 	}
 }

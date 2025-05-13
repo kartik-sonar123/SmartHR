@@ -1,17 +1,20 @@
 package com.employeeManagement.Controllers;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import com.employeeManagement.models.Attendance;
 import com.employeeManagement.models.Employee;
 import com.employeeManagement.models.User;
 import com.employeeManagement.services.AttendanceService;
 import com.employeeManagement.services.EmpService;
+
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,30 +27,26 @@ public class AttendanceController {
 	@Autowired
 	private EmpService empService;
 
-	/**
-	 * Show the attendance form to the employee URL: /attendance
-	 */
+	// Show attendance form to employee
 	@GetMapping("/attendance")
 	public String showAttendancePage(ModelMap model, HttpSession session) {
-
-		// Check if user is logged in
 		User user = (User) session.getAttribute("loggedInUser");
 
 		if (user != null) {
 			model.addAttribute("user", user);
 			model.addAttribute("attendance", new Attendance());
-			return "attendance"; // Thymeleaf view (attendance.html)
+			return "attendance";
 		} else {
-			return "redirect:/login"; // If not logged in, redirect to login
+			return "redirect:/login";
 		}
 	}
 
-	/**
-	 * Handles the form submission to mark attendance URL: /markAttendance
-	 */
+	// Handle attendance form submission
 	@PostMapping("/markAttendance")
-	public String markAttendance(@ModelAttribute Attendance attendance, HttpSession session, ModelMap model,
-			RedirectAttributes redirectAttributes) {
+	public String markAttendance(@ModelAttribute Attendance attendance,
+	                             HttpSession session,
+	                             ModelMap model,
+	                             RedirectAttributes redirectAttributes) {
 
 		User user = (User) session.getAttribute("loggedInUser");
 
@@ -60,20 +59,21 @@ public class AttendanceController {
 			if (!success) {
 				model.addAttribute("user", user);
 				model.addAttribute("error", "Attendance already marked for today.");
-				return "attendance"; // Show error on same page
+				return "attendance";
 			}
 
 			redirectAttributes.addFlashAttribute("success", "Attendance marked successfully.");
-			return "redirect:/attendance"; // Redirect with success message
+			return "redirect:/attendance";
 		}
 
 		return "redirect:/attendance";
 	}
 
+	// Admin view for all attendance records
 	@GetMapping("/admin/attendance")
 	public String viewAllAttendance(ModelMap model) {
 		List<Attendance> attendanceList = attendanceService.getAllAttendances();
 		model.addAttribute("attendanceList", attendanceList);
-		return "admin-attendance"; // View for admin
+		return "admin-attendance";
 	}
 }

@@ -2,6 +2,8 @@ package com.employeeManagement.models;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,7 +36,8 @@ public class User {
 	// Contact and Demographic Info
 	@Column(nullable = false) // Ensures address is non-null
 	private String address;
-
+	@Column(nullable = false) // Ensures address is non-null
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfBirth; // Date of birth, using LocalDate for easy date manipulation
 
 	private String gender; // Gender of the user
@@ -161,4 +164,20 @@ public class User {
 	public void setAadharNo(String aadharNo) {
 		this.aadharNo = aadharNo;
 	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", phone=" + phone
+				+ ", role=" + role + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", gender=" + gender
+				+ ", panCardNo=" + panCardNo + ", aadharNo=" + aadharNo + ", employee=" + employee + "]";
+	}
+
 }
