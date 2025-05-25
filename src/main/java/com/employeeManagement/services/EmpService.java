@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 import com.employeeManagement.models.Employee;
 import com.employeeManagement.repositories.EmpRepository;
 
-@Service // This annotation indicates that this class is a service component in the Spring context
+@Service // This annotation indicates that this class is a service component in the
+			// Spring context
 public class EmpService {
 
 	@Autowired // Automatically injects the EmpRepository dependency into this service
@@ -17,7 +18,8 @@ public class EmpService {
 
 	// Method to get all employees with their associated user data
 	public List<Employee> getAllEmployeesWithUser() {
-		return empRepository.findAllEmployeesWithUser(); // Calls the repository method to get all employees with user data
+		return empRepository.findAllEmployeesWithUser(); // Calls the repository method to get all employees with user
+															// data
 	}
 
 	// Method to save or update an employee
@@ -37,12 +39,14 @@ public class EmpService {
 
 	// Method to get an employee by their associated user's email
 	public Employee getEmployeeByEmail(String email) {
-		return empRepository.findByUserEmail(email); // Calls the repository method to find the employee by the user's email
+		return empRepository.findByUserEmail(email); // Calls the repository method to find the employee by the user's
+														// email
 	}
 
 	// Method to get the total number of employees
 	public long getTotalEmployees() {
-		return empRepository.countTotalEmployees(); // Calls the repository method to count the total number of employees
+		return empRepository.countTotalEmployees(); // Calls the repository method to count the total number of
+													// employees
 	}
 
 	// Method to get all employees without user data

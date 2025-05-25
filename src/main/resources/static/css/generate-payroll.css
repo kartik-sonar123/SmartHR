@@ -1,0 +1,105 @@
+@charset "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+	background: url('/images/attendance_bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.container {
+	background: url('/images/attendance-card-bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	padding: 2.5rem;
+	border-radius: 20px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+	width: 90%;
+	max-width: 500px;
+	transition: transform 0.3s ease;
+}
+
+h1 {
+	color: #2c3e50;
+	margin-bottom: 1.5rem;
+	font-size: 1.8rem;
+	text-align: center;
+	font-weight: 600;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+label {
+	font-weight: 500;
+	color: #34495e;
+	margin-bottom: -0.5rem;
+}
+
+input[type="text"] {
+	padding: 12px 15px;
+	border: 2px solid #e0e0e0;
+	border-radius: 8px;
+	font-size: 1rem;
+	transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+	outline: none;
+	border-color: #3498db;
+	box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+button {
+	background: linear-gradient(135deg, #3498db, #2980b9);
+	color: white;
+	padding: 12px;
+	border: none;
+	border-radius: 8px;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+button:hover {
+	transform: translateY(-2px);
+	opacity: 0.9;
+}
+
+a {
+	display: block;
+	text-align: center;
+	margin-top: 1.5rem;
+	color: #7f8c8d;
+	text-decoration: none;
+	font-weight: 500;
+	transition: color 0.3s ease;
+}
+
+a:hover {
+	color: #3498db;
+}
+
+@media ( max-width : 480px) {
+	.container {
+		padding: 1.5rem;
+		width: 95%;
+	}
+	h1 {
+		font-size: 1.5rem;
+	}
+}

@@ -14,19 +14,19 @@ import com.employeeManagement.models.Employee;
 
 public interface AttendanceRepository extends JpaRepository<Attendance, Integer> {
 
-	// Method to count attendance records based on a specific date and status
+	// Find all attendance records for a specific employee
+	List<Attendance> findByEmployee(Employee employee);
+
+	// Count the number of attendance records for a given date with a specific
+	// status (e.g., "Present")
 	long countByAttendanceDateAndStatus(LocalDate date, String status);
 
-	// Custom query to fetch attendance records along with the associated employee
-	// information
+	// Custom JPQL query to fetch attendance records along with their associated
+	// employee data in one fetch
 	@Query("SELECT a FROM Attendance a JOIN FETCH a.employee")
 	List<Attendance> getAttendanceWithEmployeeInfo();
 
-	// Method to find a specific attendance record for an employee on a given
-	// attendance date.
-	// This helps in preventing duplication of attendance by checking if a record
-	// already exists
-	// for the employee on the specified date.
+	// Find attendance record for a specific employee on a particular date
+	// Useful to check if attendance is already marked to avoid duplicates
 	Optional<Attendance> findByEmployeeAndAttendanceDate(Employee employee, LocalDate date);
-
 }

@@ -114,12 +114,29 @@ public class AdminController {
 	 * Handle form submission for saving a new employee.
 	 */
 	@PostMapping("/save")
-	public String saveEmp(@ModelAttribute Employee emp) {
+	public String saveEmp(@ModelAttribute Employee emp, ModelMap model) {
+		// First, get the full User object by ID
 		User user = userRepository.findById(emp.getUser().getId()).orElse(null);
-		if (user != null) {
-			emp.setUser(user);
+		if (user == null) {
+			model.addAttribute("error", "Selected user does not exist.");
+			model.addAttribute("employees", emp);
+			model.addAttribute("users", userRepository.findAll());
+			return "addEmp";
 		}
+
+		// Now check for existing Employee by user email
+		Employee existingEmp = empService.getEmployeeByEmail(user.getEmail());
+		if (existingEmp != null) {
+			model.addAttribute("error", "Employee with this email already exists.");
+			model.addAttribute("employees", emp);
+			model.addAttribute("users", userRepository.findAll());
+			return "addEmp";
+		}
+
+		// Set the full user into the employee object
+		emp.setUser(user);
 		empService.saveEmp(emp);
+
 		return "redirect:/employees";
 	}
 

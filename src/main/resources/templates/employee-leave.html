@@ -7,92 +7,9 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<style>
-:root {
-	--primary-color: #0d6efd;
-	--secondary-color: #6c757d;
-	--success-color: #198754;
-	--info-color: #0dcaf0;
-}
-
-body {
-	background: url('/images/attendance-card-bg.jpg');
-	background-size: cover;
-	background-repeat: no-repeat;
-	min-height: 100vh;
-}
-
-.form-card {
-	max-width: 700px;
-	margin: 2rem auto;
-	border-radius: 1rem;
-	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-	overflow: hidden;
-}
-
-.card-header {
-	background: linear-gradient(135deg, var(--primary-color), #0b5ed7);
-	padding: 1.5rem;
-}
-
-.form-label {
-	font-weight: 500;
-	color: #2d3436;
-	margin-bottom: 0.5rem;
-}
-
-.form-control:focus {
-	box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-}
-
-.date-input-group {
-	position: relative;
-}
-
-.date-input-group input[type="date"] {
-	position: relative;
-	z-index: 1;
-}
-
-.date-input-group i {
-	position: absolute;
-	right: 1rem;
-	top: 50%;
-	transform: translateY(-50%);
-	color: var(--secondary-color);
-	pointer-events: none;
-	z-index: 0;
-}
-
-.submit-btn {
-	padding: 0.75rem 1.5rem;
-	border-radius: 0.5rem;
-	transition: all 0.3s ease;
-}
-
-.submit-btn:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
-}
-
-/* Hide default date picker icon */
-input[type="date"]::-webkit-calendar-picker-indicator {
-	position: relative;
-	z-index: 2;
-	opacity: 0;
-	cursor: pointer;
-}
-
-@media ( max-width : 768px) {
-	.form-card {
-		margin: 1rem;
-		border-radius: 0.75rem;
-	}
-}
-</style>
+<link rel="stylesheet" href="/css/employee-leave.css">
 </head>
 <body class="d-flex flex-column">
-
 	<div class="container flex-grow-1 py-4">
 		<!-- Header Navigation -->
 		<div class="d-flex justify-content-between align-items-center mb-4">

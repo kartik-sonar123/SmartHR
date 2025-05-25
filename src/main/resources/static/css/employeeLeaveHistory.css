@@ -1,0 +1,131 @@
+@charset "UTF-8";
+
+:root {
+	--primary-color: #2563eb;
+	--secondary-color: #3b82f6;
+	--success-color: #16a34a;
+	--warning-color: #eab308;
+	--danger-color: #dc2626;
+}
+
+body {
+	background: url('/images/attendance_bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	color: #1e293b;
+}
+
+.profile-header {
+	background: url('/images/attendance-card-bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	padding: 2rem;
+	border-radius: 1rem;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+	margin-bottom: 2rem;
+}
+
+.stats-card {
+	background: url('/images/attendance-card-bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	padding: 1rem;
+	border-radius: 0.75rem;
+	min-width: 140px;
+	transition: transform 0.2s;
+}
+
+.stats-card:hover {
+	transform: translateY(-2px);
+}
+
+.leave-card {
+	border: none;
+	border-radius: 1rem;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.table-hover tbody tr:hover {
+	background-color: #f8fafc;
+}
+
+.status-badge {
+	padding: 0.5rem 1rem;
+	border-radius: 0.75rem;
+	font-weight: 500;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	border: 1px solid transparent;
+}
+
+.status-badge.approved {
+	background: #dcfce7;
+	color: #15803d;
+	border-color: #86efac;
+}
+
+.status-badge.pending {
+	background: #fef9c3;
+	color: #a16207;
+	border-color: #fde047;
+}
+
+.status-badge.rejected {
+	background: #fee2e2;
+	color: #b91c1c;
+	border-color: #fca5a5;
+}
+
+.reason-cell {
+	max-width: 250px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.empty-state {
+	padding: 4rem 2rem;
+	background: #f8fafc;
+	border-radius: 1rem;
+}
+
+.mobile-leave-card {
+	background: white;
+	padding: 1.5rem;
+	border-radius: 0.75rem;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+	margin-bottom: 1rem;
+}
+
+@media ( max-width : 768px) {
+	.table-responsive {
+		display: none;
+	}
+	.mobile-view {
+		display: block;
+	}
+	.profile-header {
+		padding: 1.5rem;
+	}
+	.stats-card {
+		min-width: auto;
+		width: 100%;
+	}
+}
+
+@media ( min-width : 769px) {
+	.mobile-view {
+		display: none;
+	}
+}
+
+.fab-button {
+	position: fixed;
+	bottom: 2rem;
+	right: 2rem;
+	padding: 1.25rem;
+	border-radius: 50%;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	z-index: 1000;
+}

@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.employeeManagement.models.Employee;
 import com.employeeManagement.models.User;
+import com.employeeManagement.repositories.UserRepository;
 import com.employeeManagement.services.EmpService;
 import com.employeeManagement.services.UserService;
 
@@ -23,22 +23,30 @@ public class AuthController {
 	UserService userService;
 
 	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
 	EmpService empService;
 
 	// ======================== REGISTRATION ========================
 
 	// Show the registration page
 	@GetMapping("/register")
-	public String viewRegistrationPage(ModelMap model) {
-		model.addAttribute("user", new User());
-		return "register";
+	public String showRegistrationForm(ModelMap model) {
+		model.addAttribute("user", new User()); // for form binding
+		return "register"; // your JSP/Thymeleaf page name
 	}
 
-	// Handle registration form submission
 	@PostMapping("/saveUser")
-	public String saveUser(@ModelAttribute User user) {
-		userService.saveUser(user);
-		return "login"; // After registration, go to login page
+	public String registerUser(@ModelAttribute("user") User user, ModelMap model) {
+		try {
+			userService.saveUser(user);
+			model.addAttribute("success", "User registered successfully!");
+			return "register"; // Redirect to same page with success
+		} catch (RuntimeException e) {
+			model.addAttribute("error", e.getMessage()); // Add error to ModelMap
+			return "register"; // Stay on form with error
+		}
 	}
 
 	// ======================== LOGIN & LOGOUT ========================
@@ -51,11 +59,8 @@ public class AuthController {
 
 	// Handle login form submission
 	@PostMapping("/profile")
-	public String profile(@RequestParam String email,
-	                      @RequestParam String password,
-	                      HttpSession session,
-	                      ModelMap model,
-	                      RedirectAttributes redirectAttributes) {
+	public String profile(@RequestParam String email, @RequestParam String password, HttpSession session,
+			ModelMap model, RedirectAttributes redirectAttributes) {
 
 		User user = userService.getUserByEmail(email);
 
@@ -83,13 +88,12 @@ public class AuthController {
 		return "redirect:/login"; // Return to login page
 	}
 
-	// ======================== EMPLOYEE PROFILE (For Employee Role) ========================
+	// ======================== EMPLOYEE PROFILE (For Employee Role)
+	// ========================
 
 	// Show profile page for the logged-in employee
 	@GetMapping("/employee-profile")
-	public String employeeProfile(HttpSession session,
-	                              ModelMap model,
-	                              RedirectAttributes redirectAttributes) {
+	public String employeeProfile(HttpSession session, ModelMap model, RedirectAttributes redirectAttributes) {
 
 		User loggedInUser = (User) session.getAttribute("loggedInUser");
 

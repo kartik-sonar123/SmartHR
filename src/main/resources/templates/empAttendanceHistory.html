@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Employee Attendance History</title>
+<link rel="stylesheet" href="/css/empAttendanceHistory.css">
+</head>
+<body>
+	<div class="container">
+		<h2>Attendance History</h2>
+
+		<div class="search-container">
+			<input type="text" id="searchInput"
+				placeholder="Search by date or status...">
+		</div>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Employee</th>
+					<th>Email</th>
+					<th>Date</th>
+					<th>Status</th>
+					<th>Time</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="attendance : ${attendanceList}">
+					<td th:text="${attendance.employee.name}">John Doe</td>
+					<td th:text="${attendance.employee.user.email}">john@example.com</td>
+					<td
+						th:text="${#temporals.format(attendance.attendanceDate, 'dd MMM yyyy')}">Date</td>
+					<td><span class="status-badge" th:text="${attendance.status}">Status</span>
+					</td>
+					<td
+						th:text="${#temporals.format(attendance.attendanceTime, 'hh:mm a')}">Time</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="no-results" id="noResults">No matching records found</div>
+
+		<a th:href="@{/employee-profile}" class="back-button"> ← Back to
+			Dashboard </a>
+	</div>
+	<script>
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        const input = this.value.toLowerCase().trim();
+        const rows = document.querySelectorAll('tbody tr');
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+            const cells = row.children;
+            const searchableContent = [
+                cells[2].textContent, // Date
+                cells[3].textContent  // Status
+            ].join(' ').toLowerCase();
+
+            const shouldShow = searchableContent.includes(input);
+            row.style.display = shouldShow ? '' : 'none';
+            if(shouldShow) visibleCount++;
+        });
+
+        document.getElementById('noResults').style.display = 
+            visibleCount === 0 ? 'block' : 'none';
+    });
+</script>
+</body>
+</html>
